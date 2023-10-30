@@ -6,7 +6,6 @@ const Header = (props) => {
   )
 }
 
-
 const Content = (props) => {
   return (
     <>
