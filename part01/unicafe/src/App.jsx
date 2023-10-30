@@ -9,7 +9,13 @@ const Button = (props) => {
 }
 
 const Statistics = (props) => {
-  console.log(props)
+  if (props.ratings.totalCount === 0) {
+    return (
+      <p>
+      No feedback given
+      </p>
+    )
+  }
   return (
     <p>
       good {props.ratings.good}<br />
