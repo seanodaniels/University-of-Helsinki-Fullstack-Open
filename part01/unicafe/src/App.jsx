@@ -9,72 +9,82 @@ const Button = (props) => {
 }
 
 const App = () => {
-
   const [ good, setGood ] = useState(0)
   const [ neutral, setNeutral ] = useState(0)
   const [ bad, setBad ] = useState(0)
   const [ totalCount, setTotalCount ] = useState(0)
   const [ averageScore, setAverageScore ] = useState(0)
   const [ positiveScore, setPositiveScore ] = useState(0)
+
+  const [ ratings, setRatings ] = useState({
+    good: 0, neutral: 0, bad: 0, 
+    totalCount: 0, averageScore: 0, 
+    positiveScore: 0
+  })
   
-  const handleGood = () => {
-    const updatedGood = (good+1)
-    const updatedTotalCount = (totalCount + 1) 
-    setTotalCount(updatedTotalCount)
-    const updatedAverage = ((updatedGood-bad)/updatedTotalCount)
-    setAverageScore(updatedAverage)
+  const handleGood = (props) => {
+    const updatedGood = props.good + 1
+    const updatedTotalCount = props.totalCount + 1
+    const updatedAverage = ((updatedGood - props.bad)/updatedTotalCount)
     const updatedPositiveScore = (updatedGood/updatedTotalCount*100)
-    setPositiveScore(updatedPositiveScore)
-
-    return (
-      setGood(updatedGood)
-    )
+    
+    const newRatings = {
+      ...ratings,
+      good: updatedGood,
+      totalCount: updatedTotalCount,
+      averageScore: updatedAverage,
+      positiveScore: updatedPositiveScore
+    }
+    setRatings(newRatings)
   }
 
-  const handleNeutral = () => {
-    const updatedTotalCount = (totalCount + 1) 
-    setTotalCount(updatedTotalCount)
-    const updatedAverage = ((good-bad)/updatedTotalCount)
-    setAverageScore(updatedAverage)
-    const updatedPositiveScore = (good/updatedTotalCount*100)
-    setPositiveScore(updatedPositiveScore)
+  const handleNeutral = (props) => {
+    const updatedTotalCount = props.totalCount + 1
+    const updatedAverage = ((props.good - props.bad)/updatedTotalCount)
+    const updatedPositiveScore = (props.good/updatedTotalCount*100)
     
-    return (
-      setNeutral(neutral+1)
-    )
+    const newRatings = {
+      ...ratings,
+      totalCount: updatedTotalCount,
+      averageScore: updatedAverage,
+      positiveScore: updatedPositiveScore
+    }
+    setRatings(newRatings)
   }
 
-  const handleBad = () => {
-    const updatedBad = (bad+1)
-    const updatedTotalCount = (totalCount + 1) 
-    setTotalCount(updatedTotalCount)
-    const updatedAverage = ((good-updatedBad)/updatedTotalCount)
-    setAverageScore(updatedAverage)
-    const updatedPositiveScore = (good/updatedTotalCount*100)
-    setPositiveScore(updatedPositiveScore)
+  const handleBad = (props) => {
+    const updatedBad = props.bad + 1
+    const updatedTotalCount = props.totalCount + 1
+    const updatedAverage = ((props.good - updatedBad)/updatedTotalCount)
+    const updatedPositiveScore = (props.good/updatedTotalCount*100)
     
-    return (
-      setBad(updatedBad)
-    )
+    const newRatings = {
+      ...ratings,
+      bad: updatedBad,
+      totalCount: updatedTotalCount,
+      averageScore: updatedAverage,
+      positiveScore: updatedPositiveScore
+    }
+    setRatings(newRatings)
   }
 
   return (
     <>
       <h2>give feedback</h2>
 
-      <Button handleClick={()=>handleGood()} text="good" />
-      <Button handleClick={()=>handleNeutral()} text="neutral" />
-      <Button handleClick={()=>handleBad()} text="bad" />
+      <Button handleClick={()=>handleGood(ratings)} text="good" />
+      <Button handleClick={()=>handleNeutral(ratings)} text="neutral" />
+      <Button handleClick={()=>handleBad(ratings)} text="bad" />
 
       <h2>statistics</h2>
 
       <p>
-        good {good}<br />
-        neutral {neutral}<br />
-        bad {bad}<br />
-        all {totalCount}<br />
-        average {averageScore}<br />
-        positive {positiveScore} %
+        good {ratings.good}<br />
+        neutral {ratings.neutral}<br />
+        bad {ratings.bad}<br />
+        all {ratings.totalCount}<br />
+        average {ratings.averageScore}<br />
+        positive {ratings.positiveScore} %
       </p>
     </>
   )
