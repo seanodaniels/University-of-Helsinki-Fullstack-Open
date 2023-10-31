@@ -10,8 +10,24 @@ const Button = (props) => {
 
 const DisplayAnecdote = (props) => {
   return (
-    <p>{props.current[0]}<br />
-    has {props.current[1]} votes</p>
+    <>
+      <h2>Anecdote of the day</h2>
+      <p>{props.current[0]}<br />
+      has {props.current[1]} votes</p>
+    </>
+  )
+}
+
+const DisplayMostVotes = (props) => {
+  const sortedCopy = [
+    ...props.value
+  ]
+  return (
+    <>
+      <h2>Anecdote with most votes</h2>
+      <p>{sortedCopy.sort((a,b) => { return b[1] - a[1] })[0][0]}<br />
+      has {sortedCopy.sort((a,b) => { return b[1] - a[1] })[0][1]} votes</p>
+    </>
   )
 }
 
@@ -55,7 +71,8 @@ const App = () => {
       <DisplayAnecdote current={anecdotes[selected]} />
       <Button text="vote" handleClick={() => updateVote(selected)} />
       <Button text="next anecdote" handleClick={() => updateSelected()} />
-   </div>
+      <DisplayMostVotes value={anecdotes} />
+  </div>
   )
 }
 
