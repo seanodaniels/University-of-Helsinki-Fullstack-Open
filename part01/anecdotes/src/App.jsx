@@ -52,9 +52,9 @@ const App = () => {
     )
   }
 
-  const updateSelected = () => {
+  const updateSelected = (props) => {
     return(
-      setSelected(randomAnecdote(8))
+      setSelected(randomAnecdote(props))
     )
   }
 
@@ -70,7 +70,7 @@ const App = () => {
     <div>
       <DisplayAnecdote current={anecdotes[selected]} />
       <Button text="vote" handleClick={() => updateVote(selected)} />
-      <Button text="next anecdote" handleClick={() => updateSelected()} />
+      <Button text="next anecdote" handleClick={() => updateSelected(anecdotes.length)} />
       <DisplayMostVotes value={anecdotes} />
   </div>
   )
