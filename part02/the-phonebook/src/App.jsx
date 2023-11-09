@@ -18,8 +18,18 @@ const App = () => {
         setPersons(initialPersons)
       })
   }
-  
+
   useEffect(hook, [])
+
+  const removePerson = (changedId) => {
+    personsService
+      .remove(changedId)
+      .then(() => { 
+        setPersons(persons.filter(person => person.id !== changedId))
+        setNewName('')
+        setNewNumber('')
+      })
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -61,6 +71,8 @@ const App = () => {
         .create(newPerson)
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
+          setNewName('')
+          setNewNumber('')
         })
 
       // Focus on the name field
@@ -97,7 +109,7 @@ const App = () => {
         newName={newName}
       />
       <h2>Numbers</h2>
-      <Persons peopleToShow={peopleToShow} />
+      <Persons peopleToShow={peopleToShow} deleteHandler={removePerson} />
     </div>
   )
 }
