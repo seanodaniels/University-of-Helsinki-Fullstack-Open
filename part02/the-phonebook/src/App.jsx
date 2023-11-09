@@ -24,8 +24,7 @@ const App = () => {
     event.preventDefault()
     const newPerson = {
       name: newName,
-      number: newNumber,
-      id: persons.length+1
+      number: newNumber
     }
     const userExists = persons.some(person => 
       person.name === newPerson.name
@@ -56,9 +55,15 @@ const App = () => {
 
     // If no errors then add the entry into the phonebook
     if (goFlag) {
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewNumber('')
+
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
+
       // Focus on the name field
       document.getElementById('name-field').focus()
     }
