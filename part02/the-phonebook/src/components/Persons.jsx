@@ -1,5 +1,4 @@
 const Persons = ({ peopleToShow, deleteHandler }) => {
-  // <form onSubmit={() => deleteHandler(people.id)}><button>x</button></form>
   return (
     <div>
       {peopleToShow.map(people =>

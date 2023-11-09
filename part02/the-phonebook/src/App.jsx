@@ -75,23 +75,24 @@ const App = () => {
         // Replace the entry
         const replaceId = persons.filter(person => person.name === newPerson.name)[0].id
 
-        console.log("replaceId:", replaceId)
+        // Give this new person the same ID as the old entry
+        newPerson.id = replaceId
 
-        // personsService
-        //   .update(replaceId, newPerson)
-        //   .then(() => {
-        //     setPersons(persons.filter(person => person.id))
-        //     setNewName('')
-        //     setNewNumber('')
-        //   })
+        const replacePersons = persons.map(person => person.id !== replaceId ? person : newPerson)
 
-
+        personsService
+          .update(replaceId, newPerson)
+          .then(() => {
+            setPersons(replacePersons)
+            setNewName('')
+            setNewNumber('')
+          })
       }
-      goFlag = false
-      
+      goFlag = false      
     }
 
-    // If no errors then add the entry into the phonebook
+    // If we have no errors and we are not updating, 
+    // add the entry into the phonebook
     if (goFlag) {
 
       personsService

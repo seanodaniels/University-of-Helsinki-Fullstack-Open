@@ -22,7 +22,7 @@
     },
     {
       "name": "test1",
-      "number": "ONE",
+      "number": "1",
       "id": 9
     },
     {
@@ -32,8 +32,13 @@
     },
     {
       "name": "test33",
-      "number": "33",
+      "number": "THREETHREE",
       "id": 11
+    },
+    {
+      "name": "test4",
+      "number": "4444",
+      "id": 12
     }
   ]
 }
