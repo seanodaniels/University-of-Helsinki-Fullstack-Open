@@ -27,10 +27,14 @@ const App = () => {
     let removePersonAlert = `Delete ${removePersonName}?`
     if (window.confirm(removePersonAlert)) {
 
+      const personsWithout = [
+        ...persons
+      ]
+
     personsService
       .remove(changedId)
       .then(() => { 
-        setPersons(persons.filter(person => person.id !== changedId))
+        setPersons(personsWithout.filter(person => person.id !== changedId))
         setNewName('')
         setNewNumber('')
       })
@@ -65,10 +69,26 @@ const App = () => {
     }
 
     // Does the entry already exist?
-    if (userExists) {
-      let existsAlert = `${newPerson.name} is already added to phonebook`
-      alert(existsAlert)
+    if (userExists && newPerson.number) {
+      let existsAlert = `${newPerson.name} is already added to phonebook. Replace the old number?`
+      if (window.confirm(existsAlert)) {
+        // Replace the entry
+        const replaceId = persons.filter(person => person.name === newPerson.name)[0].id
+
+        console.log("replaceId:", replaceId)
+
+        // personsService
+        //   .update(replaceId, newPerson)
+        //   .then(() => {
+        //     setPersons(persons.filter(person => person.id))
+        //     setNewName('')
+        //     setNewNumber('')
+        //   })
+
+
+      }
       goFlag = false
+      
     }
 
     // If no errors then add the entry into the phonebook
