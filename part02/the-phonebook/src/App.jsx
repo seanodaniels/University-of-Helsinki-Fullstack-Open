@@ -23,7 +23,6 @@ const App = () => {
 
   const removePerson = (changedId) => {
     const removePersonName = persons.filter(person => person.id === changedId)[0].name
-    console.log("removePersonName:", removePersonName)
     let removePersonAlert = `Delete ${removePersonName}?`
     if (window.confirm(removePersonAlert)) {
 
