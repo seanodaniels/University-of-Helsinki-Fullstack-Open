@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personsService from './services/persons.js'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -11,13 +12,13 @@ const App = () => {
   const [ filterName, setFilterName ] = useState('')
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personsService
+      .retrieve()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }
-
+  
   useEffect(hook, [])
 
   const addPerson = (event) => {
@@ -56,12 +57,10 @@ const App = () => {
     // If no errors then add the entry into the phonebook
     if (goFlag) {
 
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          setNewName('')
-          setNewNumber('')
+      personsService
+        .create(newPerson)
+        .then(returnedPersons => {
+          setPersons(persons.concat(returnedPersons))
         })
 
       // Focus on the name field
