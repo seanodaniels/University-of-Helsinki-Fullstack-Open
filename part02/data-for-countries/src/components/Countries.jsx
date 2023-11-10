@@ -1,0 +1,43 @@
+const Countries = ({ countriesToShow }) => {
+  if (countriesToShow.length > 10) {
+    return (
+      <div>
+        Too many matches. Specify another filter.
+      </div>
+    )
+  } else if (countriesToShow.length == 1) {
+    
+    return (
+      <div>
+        {countriesToShow.map(country => 
+          <div key={country.name.common}>
+            <h2>{country.name.common}</h2>
+            <p>capital {country.capital}<br />
+            area {country.area}</p>
+            <h3>languages</h3>
+            <ul>
+              { 
+                Object.values(country.languages).map(
+                  language => <li key={language}>{language}</li> 
+                )
+              }
+            </ul>
+            <img src={Object.values(country.flags)[0]} width="150"/>
+          </div>
+        )}
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        {countriesToShow.map(country => 
+          <div key={country.name.common}>
+            <div>{country.name.common}</div>
+        </div>
+        )}
+      </div>
+    )
+  }
+}
+
+export default Countries
