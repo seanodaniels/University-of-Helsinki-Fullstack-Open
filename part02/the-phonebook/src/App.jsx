@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import './index.css'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personsService from './services/persons.js'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
+  const notificationOff = {
+    type: 'notification-off',
+    message: ''
+  }
+  const [ notification, setNotification ] = useState(notificationOff)
 
   const hook = () => {
     personsService
@@ -78,6 +84,7 @@ const App = () => {
         newPerson.id = replaceId
 
         const replacePersons = persons.map(person => person.id !== replaceId ? person : newPerson)
+        const notificationMessage = `Updated ${newPerson.name}`
 
         personsService
           .update(replaceId, newPerson)
@@ -85,6 +92,13 @@ const App = () => {
             setPersons(replacePersons)
             setNewName('')
             setNewNumber('')
+            setNotification({
+              type: 'notification-good',
+              message: notificationMessage
+            })
+            setTimeout(() => {
+              setNotification(notificationOff)
+            }, 5000)   
           })
       }
       goFlag = false      
@@ -94,12 +108,21 @@ const App = () => {
     // add the entry into the phonebook
     if (goFlag) {
 
+      const notificationMessage = `Added ${newPerson.name}`
+
       personsService
         .create(newPerson)
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
           setNewName('')
           setNewNumber('')
+          setNotification({
+            type: 'notification-good',
+            message: notificationMessage
+          })
+          setTimeout(() => {
+            setNotification(notificationOff)
+          }, 5000)   
         })
 
       // Focus on the name field
@@ -126,7 +149,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter value={filterName} changeThing={handleNameFilter} />
+      <Notification changeNotification={notification} />
+      <Filter value={filterName} changeThing={handleNameFilter} />
       <h2>add a new</h2>
       <PersonForm 
         submitHandler={addPerson} 
