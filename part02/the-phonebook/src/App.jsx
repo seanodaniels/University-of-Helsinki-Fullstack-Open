@@ -100,6 +100,16 @@ const App = () => {
               setNotification(notificationOff)
             }, 5000)   
           })
+          .catch(error => {
+          const errorMessage = `Information of ${newPerson.name} has already been removed from the server.`
+          setNotification({
+            type: 'notification-error',
+            message: errorMessage
+          })
+          setTimeout(() => {
+            setNotification(notificationOff)
+          }, 5000)   
+          })
       }
       goFlag = false      
     }
@@ -123,6 +133,9 @@ const App = () => {
           setTimeout(() => {
             setNotification(notificationOff)
           }, 5000)   
+        })
+        .catch(error => {
+          console.log('FAIL')
         })
 
       // Focus on the name field
