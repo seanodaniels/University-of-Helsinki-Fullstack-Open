@@ -24,10 +24,14 @@ const App = () => {
     country.name.common.toLowerCase().includes(filterName.toLowerCase())
   )
 
+  const showHandler = (value) => {
+    setFilterName(value)
+  }
+
   return (
     <div>
       <Filter value={filterName} changeThing={handleNameFilter} />
-      <Countries countriesToShow={countriesToShow} />
+      <Countries countriesToShow={countriesToShow} showHandler={showHandler} />
     </div>
   )
 }

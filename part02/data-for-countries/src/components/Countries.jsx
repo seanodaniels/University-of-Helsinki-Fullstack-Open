@@ -1,4 +1,4 @@
-const Countries = ({ countriesToShow }) => {
+const Countries = ({ countriesToShow, showHandler }) => {
   if (countriesToShow.length > 10) {
     return (
       <div>
@@ -32,7 +32,7 @@ const Countries = ({ countriesToShow }) => {
       <div>
         {countriesToShow.map(country => 
           <div key={country.name.common}>
-            <div>{country.name.common}</div>
+            <div>{country.name.common} <button onClick={() => showHandler(country.name.common)}>show</button></div>
         </div>
         )}
       </div>
