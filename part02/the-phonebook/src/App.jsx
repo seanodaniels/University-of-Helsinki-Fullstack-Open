@@ -59,20 +59,6 @@ const App = () => {
 
     var goFlag = true
 
-    // Did the user enter a name?
-    if (!newPerson.name) { 
-      let alertNewName = `${newPerson.name} needs a name`
-      alert(alertNewName)
-      goFlag = false
-    }
-
-    // Did the user enter a number?
-    if (!newPerson.number) { 
-      let alertNewNumber = `${newPerson.name} needs a number`
-      alert(alertNewNumber)
-      goFlag = false
-    }
-
     // Does the entry already exist?
     if (userExists && newPerson.number) {
       let existsAlert = `${newPerson.name} is already added to phonebook. Replace the old number?`
@@ -122,8 +108,8 @@ const App = () => {
 
       personsService
         .create(newPerson)
-        .then(returnedPersons => {
-          setPersons(persons.concat(returnedPersons))
+        .then(createdPersons => {
+          setPersons(persons.concat(createdPersons))
           setNewName('')
           setNewNumber('')
           setNotification({
@@ -135,7 +121,11 @@ const App = () => {
           }, 5000)   
         })
         .catch(error => {
-          console.log('FAIL')
+          console.log(error.response.data.error)
+          setNotification({
+            type: 'notification-error',
+            message: error.response.data.error
+          })
         })
 
       // Focus on the name field
